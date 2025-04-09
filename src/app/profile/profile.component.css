@@ -1,0 +1,30 @@
+/* You can add any additional custom styles here */
+/* Most styling is handled by Tailwind classes */
+
+/* Animation for the flight icon */
+.flight-icon {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .booking-card:hover .flight-icon {
+    transform: translateX(10px);
+  }
+  
+  /* Custom scrollbar for the bookings list */
+  .bookings-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .bookings-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .bookings-container::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 10px;
+  }
+  
+  .bookings-container::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+  }
