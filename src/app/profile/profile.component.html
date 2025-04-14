@@ -1,126 +1,114 @@
 <div class="min-h-screen bg-gray-50">
-    <!-- Header Section -->
-    <header class="bg-white shadow">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-blue-800">My Flight Bookings</h1>
-      </div>
-    </header>
-  
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <!-- Loading State -->
-      <div *ngIf="isLoading" class="flex justify-center py-10">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-800"></div>
-      </div>
-  
-      <!-- Error State -->
-      <div *ngIf="error" class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm text-red-700">{{ error }}</p>
-          </div>
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex justify-center py-10">
+      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400"></div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="bg-red-50 border-l-4 border-red-400 p-3 mb-5 rounded">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-red-700">{{ error }}</p>
         </div>
       </div>
-  
-      <!-- No Bookings State -->
-      <div *ngIf="!isLoading && !error && flightBookings.length === 0" class="bg-white rounded-lg shadow p-6 text-center">
-        <svg class="mx-auto h-16 w-16 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <h3 class="mt-2 text-lg font-medium text-gray-900">No flight bookings found</h3>
-        <p class="mt-1 text-sm text-gray-500">You haven't booked any flights yet. Start exploring destinations now!</p>
-      </div>
-  
-      <!-- Bookings List -->
-      <div *ngIf="!isLoading && flightBookings.length > 0" class="space-y-6">
-        <div *ngFor="let booking of flightBookings" class="bg-white overflow-hidden shadow rounded-lg">
-          <!-- Flight Header -->
-          <div class="bg-blue-800 px-4 py-5 sm:px-6 text-white">
-            <div class="flex justify-between items-center">
-              <div>
-                <h3 class="text-lg leading-6 font-medium">{{ booking.AIRLINE }}</h3>
-                <p class="mt-1 max-w-2xl text-sm">Flight #{{ booking.FLIGHT_ID }}</p>
-              </div>
-              <span class="px-3 py-1 rounded-full text-sm font-semibold" [ngClass]="getTypeClass(booking.TYPE)">
-                {{ booking.TYPE }}
-              </span>
-            </div>
+    </div>
+
+    <!-- No Bookings State -->
+    <div *ngIf="!isLoading && !error && flightBookings.length === 0" class="bg-white rounded-lg shadow-sm p-5 text-center">
+      <svg class="mx-auto h-12 w-12 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <h3 class="mt-2 text-lg font-medium text-gray-800">No flight bookings found</h3>
+      <p class="mt-1 text-sm text-gray-500">You haven't booked any flights yet. Start exploring destinations now!</p>
+    </div>
+
+    <!-- Bookings List -->
+    <div *ngIf="!isLoading && flightBookings.length > 0" class="space-y-4">
+      <div *ngFor="let booking of flightBookings" class="bg-white overflow-hidden shadow-sm rounded-lg border-t-2 border-blue-400">
+        <!-- Flight Header -->
+        <div class="bg-blue-50 px-4 py-3 flex justify-between items-center">
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-medium text-blue-700">{{ booking.AIRLINE }}</h3>
+            <p class="text-xs text-gray-500">Flight #{{ booking.FLIGHT_ID }}</p>
           </div>
-  
-          <!-- Flight Details -->
-          <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
-            <!-- Route Info -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
-              <div class="flex-1">
-                <div class="text-4xl font-bold text-gray-800">{{ booking.FRO }}</div>
-                <div class="text-sm text-gray-500">{{ booking.DEPT_TIME }} • {{ booking.DEPT_DATE }}</div>
-              </div>
-              
-              <div class="flex flex-col items-center my-4 md:my-0">
-                <div class="text-gray-400 text-sm">{{ booking.DURATION }}</div>
-                <div class="relative">
-                  <div class="absolute inset-0 flex items-center">
-                    <div class="h-0.5 w-24 md:w-32 bg-gray-200"></div>
-                  </div>
-                  <div class="relative flex justify-center">
-                    <svg class="h-6 w-6 text-blue-600 transform rotate-90" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                    </svg>
-                  </div>
+          <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="getTypeClass(booking.TYPE)">
+            {{ booking.TYPE }}
+          </span>
+        </div>
+
+        <!-- Flight Details -->
+        <div class="px-4 py-3">
+          <!-- Route Info -->
+          <div class="flex items-center justify-between">
+            <div class="text-left">
+              <div class="text-2xl font-bold text-gray-800">{{ booking.FRO }}</div>
+              <div class="text-xs text-gray-500">{{ booking.DEPT_TIME }}</div>
+              <div class="text-xs text-gray-500">{{ booking.DEPT_DATE }}</div>
+            </div>
+            
+            <div class="flex flex-col items-center px-2">
+              <div class="text-xs text-gray-400">{{ booking.DURATION }}</div>
+              <div class="relative w-16 md:w-24">
+                <div class="absolute inset-0 flex items-center">
+                  <div class="h-px w-full bg-blue-200"></div>
+                </div>
+                <div class="relative flex justify-center">
+                  <svg class="h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  </svg>
                 </div>
               </div>
-              
-              <div class="flex-1 text-right">
-                <div class="text-4xl font-bold text-gray-800">{{ booking.TOOOO }}</div>
-                <div class="text-sm text-gray-500">{{ booking.ARRIV_TIME }} • {{ booking.ARRIV_DATE }}</div>
-              </div>
             </div>
-  
-            <!-- Booking Details -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-gray-200 pt-4">
-              <div>
-                <div class="text-sm font-medium text-gray-500">Baggage Allowance</div>
-                <div class="mt-1 text-sm text-gray-900">{{ booking.BAG }}</div>
-              </div>
-              <div>
-                <div class="text-sm font-medium text-gray-500">Price</div>
-                <div class="mt-1 text-sm text-gray-900">${{ booking.PRICE }}</div>
-              </div>
-              <div>
-                <div class="text-sm font-medium text-gray-500">Booking Date</div>
-                <div class="mt-1 text-sm text-gray-900">{{ booking.TSTAMP | date:'medium' }}</div>
-              </div>
-            </div>
-  
-            <!-- Fare Options -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 border-t border-gray-200 pt-4">
-              <div *ngIf="booking.BEST === 'YES'" class="bg-green-50 p-3 rounded-md">
-                <div class="font-medium text-green-800">Best Value</div>
-                <div class="text-sm text-green-600">Recommended fare option</div>
-              </div>
-              <div *ngIf="booking.FLEX === 'YES'" class="bg-blue-50 p-3 rounded-md">
-                <div class="font-medium text-blue-800">Flexible</div>
-                <div class="text-sm text-blue-600">Change or cancel anytime</div>
-              </div>
+            
+            <div class="text-right">
+              <div class="text-2xl font-bold text-gray-800">{{ booking.TOOOO }}</div>
+              <div class="text-xs text-gray-500">{{ booking.ARRIV_TIME }}</div>
+              <div class="text-xs text-gray-500">{{ booking.ARRIV_DATE }}</div>
             </div>
           </div>
-  
-          <!-- Actions Footer -->
-          <div class="border-t border-gray-200 px-4 py-4 sm:px-6 bg-gray-50 flex justify-end space-x-3">
-            <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              View E-Ticket
-            </button>
-            <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-800 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              Manage Booking
-            </button>
+
+          <!-- Booking Details -->
+          <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-gray-100 text-xs">
+            <div>
+              <span class="text-gray-500">Baggage:</span>
+              <span class="ml-1 text-gray-700">{{ booking.BAG }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Price:</span>
+              <span class="ml-1 text-blue-600 font-medium">${{ booking.PRICE }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Booked:</span>
+              <span class="ml-1 text-gray-700">{{ booking.TSTAMP | date:'shortDate' }}</span>
+            </div>
+          </div>
+
+          <!-- Fare Options -->
+          <div class="flex gap-2 mt-3 pt-2 border-t border-gray-100">
+            <div *ngIf="booking.BEST === 'YES'" class="bg-green-50 px-2 py-1 rounded text-xs">
+              <span class="text-green-700">Best Value</span>
+            </div>
+            <div *ngIf="booking.FLEX === 'YES'" class="bg-blue-50 px-2 py-1 rounded text-xs">
+              <span class="text-blue-700">Flexible</span>
+            </div>
           </div>
         </div>
+
+        <!-- Actions Footer -->
+        <div class="border-t border-gray-100 px-4 py-3 bg-gray-50 flex justify-end">
+          <button  type="button" class="px-3 py-1.5 border border-blue-300 text-xs font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 focus:outline-none focus:ring-1 focus:ring-blue-400">
+            Cancel
+          </button>
+        </div>
       </div>
-    </main>
-  </div>    
+    </div>
+  </main>
+</div>
