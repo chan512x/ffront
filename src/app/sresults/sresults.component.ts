@@ -45,6 +45,55 @@ export class SresultsComponent {
       }, 1500);
     })
   }
+  selectedWebsite: string = 'default';
+
+// Add these methods to your component class
+updateSelectedPrice(): void {
+  // This will update the price when a different website is selected 
+  // The calculateTotal and calculateConvenienceFee methods will use this
+  this.calculateTotal();
+}
+
+getCurrentPrice(): number {
+  switch(this.selectedWebsite) {
+    case 'air_irctc':
+      return this.selectedFlight.ai_price || this.selectedFlight.price;
+    case 'easemytrip':
+      return this.selectedFlight.emt_price || this.selectedFlight.price;
+    case 'magic_fares':
+      return this.selectedFlight.mf_price || this.selectedFlight.price;
+    default:
+      return this.selectedFlight.price;
+  }
+}
+
+calculateConvenienceFee(): number {
+  // Only apply convenience fee for SkyScaper bookings
+  if (1) {
+    return Math.round(this.getCurrentPrice() * 0.1);
+  }
+  return 0;
+}
+
+calculateTotal(): number {
+  return this.getCurrentPrice() + this.calculateConvenienceFee();
+}
+
+getWebsiteName(): string {
+  switch(this.selectedWebsite) {
+    case 'air_irctc':
+      return 'Air_Irctc';
+    case 'easemytrip':
+      return 'Easemytrip';
+    case 'magic_fares':
+      return 'Magic Fares';
+    default:
+      return 'SkyScaper';
+  }
+}
+
+// Modify the confirm booking method to handle different websites
+
   handleLogout(){
     console.log("logout")
     localStorage.setItem('token',"");
@@ -55,15 +104,6 @@ export class SresultsComponent {
     window.scrollTo(0, 0);
     // Optional: prevent body scrolling while overlay is open
     document.body.style.overflow = 'hidden';
-  }
-  calculateConvenienceFee(): number {
-    if (!this.selectedFlight) return 0;
-    return Math.round(this.selectedFlight.price * 0.1);
-  }
-  // Calculate total price including convenience fee
-  calculateTotal(): number {
-    if (!this.selectedFlight) return 0;
-    return Math.round(this.selectedFlight.price * 1.1);
   }
   
   // Close the flight details overlay
@@ -78,7 +118,8 @@ export class SresultsComponent {
     // Add your booking logic here
     console.log('Booking confirmed for:', this.selectedFlight);
     // You would typically navigate to a payment page or show a confirmation
-    this.selectedFlight;
+    this.selectedFlight.price=this.calculateTotal()
+    console.log(this.selectedFlight.price);
     alert('Booking confirmed! Total amount: ₹' + this.calculateTotal());
     this.bookingService.book(this.selectedFlight,this.calculateTotal()).subscribe((data)=>{
       console.log(data)

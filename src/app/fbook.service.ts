@@ -22,6 +22,9 @@ export interface FlightBooking {
   BEST: string;
   FLEX: string;
   TSTAMP: Date;
+  CANCELLABLE:string;
+  UPCOMING:string;
+  BID:string;
 }
 
 @Injectable({
@@ -29,6 +32,7 @@ export interface FlightBooking {
 })
 export class BookingService {
   private apiUrl = 'http://127.0.0.1:5000/fbook'; // Your API endpoint
+  private apiUrl1 = 'http://127.0.0.1:5000/cancel'; // Your API endpoint
 
   constructor(private http: HttpClient) { }
 
@@ -41,6 +45,16 @@ export class BookingService {
     });
     const body={}
     return this.http.post<FlightBooking[]>(this.apiUrl,body ,{headers});
+    // The JWT token should be automatically added by an HTTP interceptor
+  }
+  handleCancel(bid:string): Observable<any> {
+    const token = localStorage.getItem('token'); // Get token from storage
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Attach token
+    });
+    const body={bid}
+    return this.http.post<any[]>(this.apiUrl1,body ,{headers})
     // The JWT token should be automatically added by an HTTP interceptor
   }
 }

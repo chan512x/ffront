@@ -12,18 +12,46 @@ export class ProfileComponent implements OnInit {
   flightBookings: FlightBooking[] = [];
   isLoading = true;
   error: string | null = null;
+  // Component properties
+activeFilter: 'upcoming' | 'past' = 'upcoming';
+allFlightBookings: any[] = []; // Store all bookings here
+
+// Filter function to show upcoming or past flights
+filterFlights(filter: 'upcoming' | 'past'): void {
+  this.activeFilter = filter;
+  
+  if (filter === 'upcoming') {
+    this.flightBookings = this.allFlightBookings.filter(booking => (booking.UPCOMING==='True'));
+  } else {
+    this.flightBookings = this.allFlightBookings.filter(booking => !(booking.UPCOMING==='True'));
+  }
+}
+
+// When loading data from your API
 
   constructor(private bookingService: BookingService) { }
 
   ngOnInit(): void {
     this.loadFlightBookings();
   }
+  cancelFlight(bid:string):void{
+    console.log(bid)
+    this.bookingService.handleCancel(bid).subscribe({
+      next:(yo)=>{
+        console.log('done')
+        this.ngOnInit()
+      }
+    })
 
+  }
   loadFlightBookings(): void {
     this.isLoading = true;
     this.bookingService.getUserFlightBookings().subscribe({
         next: (bookings) => {
-          this.flightBookings = bookings;
+          this.allFlightBookings = bookings;
+          console.log(bookings)
+          console.log(bookings[0].BID)
+          this.filterFlights('upcoming');
           this.isLoading = false;
         },
         error: (err) => {
