@@ -6,6 +6,7 @@ import { SresultsComponent } from './sresults/sresults.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { ChartComponent } from './chart/chart.component';
 export const routes: Routes = [
 
     {
@@ -22,7 +23,7 @@ export const routes: Routes = [
 
     {
 
-        path:'check',component:AuthComponent
+        path:'check',component:ChartComponent
 
     },
     {

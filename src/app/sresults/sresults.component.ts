@@ -5,9 +5,10 @@ import { GetresService } from '../getres.service';
 import { RouterOutlet } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { BookingService } from '../booking.service';
+import { ChartComponent } from '../chart/chart.component';
 @Component({
   selector: 'app-sresults',
-  imports: [FormsModule,CommonModule,RouterOutlet],
+  imports: [FormsModule,CommonModule,RouterOutlet,ChartComponent],
   templateUrl: './sresults.component.html',
   styleUrl: './sresults.component.css'
 })
@@ -46,6 +47,17 @@ export class SresultsComponent {
     })
   }
   selectedWebsite: string = 'default';
+  chartDatasetSelections = {
+    aictc: true,
+    emt: true,
+    mf: true
+  };
+  
+  toggleChartDataset(dataset: 'aictc' | 'emt' | 'mf'): void {
+    this.chartDatasetSelections[dataset] = !this.chartDatasetSelections[dataset];
+    // You would need to emit this change to the chart component
+    // or use a shared service to communicate between components
+  }
 
 // Add these methods to your component class
 updateSelectedPrice(): void {
